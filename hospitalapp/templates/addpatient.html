@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% block content%}
+<div class="container">
+    <h3>Add Patient</h3><br><br>
+    <form method="post" action="">
+        {% csrf_token %}
+        <div class='row'>
+            <div class='col-md-3'>
+                <div class="form-group">
+                    <label for="pid">UHID :</label>
+                    <input type="text" class="form-control" id="pid" value={{ pid }}>
+                </div>
+            </div>
+            <div class='col-md-3'>
+                <div class="form-group">
+                    <label for="title">Title :</label>
+                    <select id='title' class="select" style="
+            display: block;
+            width: 100%;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        ">
+                        <option>Mr</option>
+                        <option>Mrs</option>
+                        <option>Others</option>
+                    </select>
+                </div>
+            </div>
+            <div class='col-md-3'>
+                <div class="form-group">
+                    <label for="name">Patient Name :</label>
+                    <input type="test" class="form-control" id="name">
+                </div>
+            </div>
+            <div class='col-md-3'>
+                <div class="form-group">
+                    <label for="gender">Gender :</label>
+                    <select id='gender' class="select" style="
+            display: block;
+            width: 100%;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        ">
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Others</option>
+                    </select>
+                </div>
+            </div>
+            <div class='col-md-3'>
+                <div class="form-group">
+                    <label for="dob">DOB :</label>
+                    <input type="date" class="form-control" id="dob">
+                </div>
+            </div>
+            <div class='col-md-3'>
+                <div class="form-group">
+                    <label for="age">Age :</label>
+                    <input type="number" min='1' max="100" class="form-control" id="age">
+                </div>
+            </div>
+            <div class='col-md-3'>
+                <div class="form-group">
+                    <label for="email">Email Id :</label>
+                    <input type="email" class="form-control" id="email">
+                </div>
+            </div>
+            <div class='col-md-3'>
+                <div class="form-group">
+                    <label for="mobile">Mobile :</label>
+                    <input type="tel" pattern="[0-9]{10}" class="form-control" id="mobile">
+                </div>
+            </div>
+            <div class='col-md-3'>
+                <div class="form-group">
+                    <label for="ref">RefDr :</label>
+                    <select id='ref' class="select" style="
+            display: block;
+            width: 100%;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        ">
+                        {% for refdr_names_key in refdr_names_keys %}
+
+                        <p>{{ refdr_names_key.DoctorName }}</p>
+                        <option value={{ refdr_names_key.DoctorName }}>{{ refdr_names_key.DoctorName }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class='col-md-3'>
+
+                <div class="form-group">
+                    <label for="test">Selected Test :</label>
+                    <select id='test' class="select" multiple style="
+            display: block;
+            width: 100%;
+            height: 100px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        ">
+                        <option>T-1</option>
+                        <option>T-2</option>
+                        <option>T-3</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+</div>
+<center><input type="submit" class="btn btn-primary btn-lg" value="save"></center>
+
+
+{% endblock %}

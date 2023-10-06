@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}Registration summary{% endblock %}
+{% block content %}
+<div class="row">
+<div class='col-md-3'>
+    <h3>Registraion summary</h3>
+</div>
+<div class='col-md-offset-8 col-md-1'><a href="{% url 'addpatient' %}"><button class='btn btn-primary'>Add Patient</button></a></div>
+</div>
+<div class="container">
+    <div class="row">
+        <form action=""></form>
+        <div class="col-md-3">
+
+            <div class="form-group">
+                <label for="from">From Date:</label>
+                <input type="date" class="form-control" id="from">
+            </div>
+
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="to">To Date:</label>
+                <input type="dat" class="form-control" id="to">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="name">Patient Name:</label>
+                <input type="text" class="form-control" id="name">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="mobile">Mobile:</label>
+                <input type="tel" class="form-control" id="mobile">
+            </div>
+        </div>
+        </form>
+    </div>
+    <div class="col-md-3"><button class="btn btn-primary btn-lg" width="160">Search</button></div>
+</div>
+<div class="row">
+    <div class="table-responsive">  
+    <table class="table">
+        <thead>
+          <tr>
+            <th>UHID</th>
+            <th>Date</th>
+            <th>Title</th>
+            <th>Patient Name</th>
+            <th>Gender</th>
+            <th>DOB</th>
+            <th>Age</th>
+            <th>Mobile</th>
+            <th>Email</th>
+            <th>RefDr</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>P00001</td>
+            <td>27/10/2002</td>
+            <td>Mr</td>
+            <td>Karthikeyan</td>
+            <td>Male</td>
+            <td>27/10/2002</td>
+            <td>21</td>
+            <td>4372985784</td>
+            <td>john@example.com</td>
+            <td>John</td>
+            <td><span class="glyphicon glyphicon-plus">&nbsp;</span>
+                <span class="glyphicon glyphicon-trash">&nbsp;</span>
+                <span class="glyphicon glyphicon-edit">&nbsp;</span>
+                <span class="glyphicon glyphicon-qrcode">&nbsp;</span>
+                <span class="glyphicon glyphicon-barcode">&nbsp;</span>
+                <span class="glyphicon glyphicon-save-file">&nbsp;</span>
+                <span class="glyphicon glyphicon-print">&nbsp;</span>
+            </td>
+        
+          </tr>
+        </tbody>
+      </table>
+    </div>
+</div>
+
+
+{% endblock%}
