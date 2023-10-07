@@ -1,32 +1,39 @@
 {% extends 'base.html' %}
 {% block script %}
-function addtest(){
+var i=0;
+function addtest(event){
+    event.preventDefault(); // Prevent form submission or page reload
 // Get the selected test from the dropdown
 var selectedTest = document.getElementById('ctest').value;
 
 // You can now use the selectedTest variable as needed
 // For example, you can add it to a textarea or perform any other action
 var testarea = document.getElementById('comment');
+if(i==0){
+    testarea.value='';
+    i++;
+}
 testarea.value += selectedTest + '\n';
 }
 
 {% endblock %}
 {% block content%}
 <div class="container">
-    <h3>Add Patient</h3><br><br>
+    <h3>Edit Patient</h3><br><br>
+    
     <form method="post" action="">
         {% csrf_token %}
         <div class='row'>
             <div class='col-md-3'>
                 <div class="form-group">
                     <label for="pid">UHID :</label>
-                    <input type="text" class="form-control" id="pid" value={{ pid }} name='pid' required readonly>
+                    <input type="text" class="form-control" id="pid" value={{ key.uhid }} name='pid' required readonly>
                 </div>
             </div>
             <div class='col-md-3'>
                 <div class="form-group">
                     <label for="title">Title :</label>
-                    <select id='title' class="select" name='title' style="
+                    <select id='title' class="select" name='title'  style="
             display: block;
             width: 100%;
             height: 34px;
@@ -39,16 +46,16 @@ testarea.value += selectedTest + '\n';
             border: 1px solid #ccc;
             border-radius: 4px;
         ">
-                        <option value="Mr">Mr</option>
-                        <option value="Mrs">Mrs</option>
-                        <option value="Others">Others</option>
+                        <option value="Mr" {% if key.title == 'Mr'%}selected{% endif %}>Mr</option>
+                        <option value="Mrs" {% if key.title == 'Mrs'%}selected{% endif %}>Mrs</option>
+                        <option value="Others" {% if key.title == 'Others'%}selected{% endif %}>Others</option>
                     </select>
                 </div>
             </div>
             <div class='col-md-3'>
                 <div class="form-group">
                     <label for="name">Patient Name :</label>
-                    <input type="test" class="form-control" id="name" name='pname' required>
+                    <input type="test" class="form-control" id="name" name='pname' value={{key.patientname}} required>
                 </div>
             </div>
             <div class='col-md-3'>
@@ -67,40 +74,41 @@ testarea.value += selectedTest + '\n';
             border: 1px solid #ccc;
             border-radius: 4px;
         ">
-                        <option value='Male'>Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Others">Others</option>
+                        <option value='Male' {% if key.gender == 'Male'%}selected{% endif %}>Male</option>
+                        <option value="Female" {% if key.gender == 'Female'%}selected{% endif %}>Female</option>
+                        <option value="Others" {% if key.gender == 'Others'%}selected{% endif %}>Others</option>
                     </select>
                 </div>
             </div>
             <div class='col-md-3'>
                 <div class="form-group">
                     <label for="dob">DOB :</label>
-                    <input type="date" class="form-control" id="dob" name='dob' required>
+        
+                    <input type="date" class="form-control" id="dob" value="{{key.dob}}" name='dob' required>
                 </div>
             </div>
             <div class='col-md-3'>
                 <div class="form-group">
                     <label for="age">Age :</label>
-                    <input type="number" min='1' max="100" class="form-control" name='age' id="age" required>
+                    <input type="number" min='1' max="100" value={{key.age}} class="form-control" name='age' id="age" required>
                 </div>
             </div>
             <div class='col-md-3'>
                 <div class="form-group">
                     <label for="email">Email Id :</label>
-                    <input type="email" class="form-control" id="email" name='email' required>
+                    <input type="email" class="form-control" value={{key.email}} id="email" name='email' required>
                 </div>
             </div>
             <div class='col-md-3'>
                 <div class="form-group">
                     <label for="mobile">Mobile :</label>
-                    <input type="tel" pattern="[0-9]{10}" class="form-control" id="mobile" name='mobile' required>
+                    <input type="tel" pattern="[0-9]{10}" value={{key.mobile}} class="form-control" id="mobile" name='mobile' required>
                 </div>
             </div>
             <div class='col-md-3'>
                 <div class="form-group">
                     <label for="ref">RefDr :</label>
-                    <select id='ref' class="select" name='refdr' style="
+                    <select id='ref' class="select" name='refdr'  style="
             display: block;
             width: 100%;
             height: 34px;
@@ -114,9 +122,7 @@ testarea.value += selectedTest + '\n';
             border-radius: 4px;
         ">
                         {% for refdr_names_key in refdr_names_keys %}
-
-                        <p>{{ refdr_names_key.DoctorName }}</p>
-                        <option value={{ refdr_names_key.DoctorName }}>{{ refdr_names_key.DoctorName }}</option>
+                        <option value={{ refdr_names_key.DoctorName }} {% if key.refdr == refdr_names_key.DoctorName %}selected{% endif %}>{{ refdr_names_key.DoctorName }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -143,7 +149,7 @@ testarea.value += selectedTest + '\n';
                     </select>
                 </div>
             </div>
-            <div class="col-md-3"><br><button class='btn btn-primary btn-sm' id='add' onclick="addtest()">Add</button></div>
+            <div class="col-md-3"><br><button class='btn btn-primary btn-sm' id='add' onclick="addtest(event)">Add</button></div>
         </div>
         <div class="row">
             <div class="col-md-3"></div>
@@ -151,13 +157,14 @@ testarea.value += selectedTest + '\n';
                 <div class="form-group">
                    
                     <br><div class="form-group">
-                        <textarea class="form-control" rows="5" id="comment" name='test'></textarea>
+                        <textarea class="form-control"  rows="5" id="comment" name='test'>{{key.selected_test}}</textarea>
                       </div>
                 </div>
             </div>
         </div>
         <center><input type='submit' class="btn btn-primary btn-large" value="save"></center>
     </form>
+    
 </div>
 
 

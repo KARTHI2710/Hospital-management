@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'css/customstyle.css'%}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>{% block script %}{% endblock %}</script>
     <title>{% block title %}Hospital Management{% endblock %}</title>
 </head>
 <body>
@@ -32,7 +33,7 @@
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Master
               <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">RefDr Master</a></li>
+                <li><a href="{% url 'refdr' %}">RefDr Master</a></li>
                 <li><a href="#">Test Master</a></li>
                 <li><a href="#">Report Master</a></li>
                 <li><a href="#">Pathologist Master</a></li>

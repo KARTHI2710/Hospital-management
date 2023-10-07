@@ -6,7 +6,7 @@ class Patient_db(models.Model):
     title=models.CharField(max_length=10)
     patientname=models.CharField(max_length=10)
     gender=models.CharField(max_length=10)
-    dob=models.DateField()
+    dob=models.CharField(max_length=10)
     age=models.IntegerField()
     email=models.EmailField()
     mobile=models.IntegerField()

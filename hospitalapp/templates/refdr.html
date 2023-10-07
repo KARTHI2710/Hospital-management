@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}Registration summary{% endblock %}
+{% block title %}RefDr Master{% endblock %}
 {% block content %}
 <div class="row">
     <div class='col-md-3'>
-        <h3>Registraion summary</h3>
+        <h3>RefDr Master</h3>
     </div>
-    <div class='col-md-offset-8 col-md-1'><a href="{% url 'addpatient' %}"><button class='btn btn-primary'>Add
-                Patient</button></a></div>
 </div>
 <div class="container">
     <div class="row">
@@ -14,33 +12,32 @@
         <div class="col-md-3">
 
             <div class="form-group">
-                <label for="from">From Date:</label>
-                <input type="date" class="form-control" id="from">
+                <label for="from">DoctorName : </label>
+                <input type="text" class="form-control" id="from">
             </div>
 
         </div>
         <div class="col-md-3">
             <div class="form-group">
-                <label for="to">To Date:</label>
-                <input type="dat" class="form-control" id="to">
+                <label for="to">DoctorCode : </label>
+                <input type="text" class="form-control" id="to">
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label for="name">Patient Name:</label>
-                <input type="text" class="form-control" id="name">
-            </div>
+        <div class="col-md-2">
+            <a href=""><button class='btn btn-primary'>Search
+            </button></a>
         </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label for="mobile">Mobile:</label>
-                <input type="tel" class="form-control" id="mobile">
-            </div>
+        <div class="col-md-2">
+            <a href=""><button class='btn btn-primary'>Add
+                Refdr</button></a>
         </div>
         </form>
     </div>
-    <div class="col-md-3"><button class="btn btn-primary btn-lg" width="160">Search</button></div>
+
 </div>
+
+</div>
+
 <div class="row">
     <div class="table-responsive">
         <table class="table">
@@ -73,10 +70,14 @@
                     <td>{{detail.email}}</td>
                     <td>{{detail.refdr}}</td>
                     <td><a href=''><span class="glyphicon glyphicon-plus">&nbsp;</span></a>
-                        <a href="{% url 'deletepatient' pid=detail.uhid %}"><span class="glyphicon glyphicon-trash">&nbsp;</span></a>
-                        <a href="{% url 'editpatient' pid=detail.uhid %}"><span class="glyphicon glyphicon-edit">&nbsp;</span></a>
-                        <a href="{% url 'qrcode' pid=detail.uhid %}"><span class="glyphicon glyphicon-qrcode">&nbsp;</span></a>
-                        <a href="{% url 'barcode' pid=detail.uhid %}"><span class="glyphicon glyphicon-barcode">&nbsp;</span></a>
+                        <a href="{% url 'deletepatient' pid=detail.uhid %}"><span
+                                class="glyphicon glyphicon-trash">&nbsp;</span></a>
+                        <a href="{% url 'editpatient' pid=detail.uhid %}"><span
+                                class="glyphicon glyphicon-edit">&nbsp;</span></a>
+                        <a href="{% url 'qrcode' pid=detail.uhid %}"><span
+                                class="glyphicon glyphicon-qrcode">&nbsp;</span></a>
+                        <a href="{% url 'barcode' pid=detail.uhid %}"><span
+                                class="glyphicon glyphicon-barcode">&nbsp;</span></a>
                         <a href=''> <span class="glyphicon glyphicon-save-file">&nbsp;</span></a>
                         <a href=''> <span class="glyphicon glyphicon-print">&nbsp;</span></a>
                     </td>
