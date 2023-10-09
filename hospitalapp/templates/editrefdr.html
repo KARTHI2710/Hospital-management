@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content  %}
+<h1>Edit Doctor</h1>
+<div class="container">
+    <form action="" method="post">
+        {% csrf_token %}
+    <div class='row'>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="d_id">DoctorCode :</label>
+                <input type="text" class="form-control" id="d_id" value={{key.Doctorcode}} name='d_id' required readonly>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="d_name">DoctorName :</label>
+                <input type="text" class="form-control" id="d_name" value={{key.DoctorName}} name='docname' required>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="q_name">Qualification :</label>
+                <input type="text" class="form-control" id="q_name" value={{key.Qualification}} name='qualification' required>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="spec">Specialization :</label>
+                <input type="text" class="form-control" id="spec" value={{key.Specialization}} name='spec' required>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="form-group">
+                <label for="address">Address :</label>
+                <input type="text" class="form-control" id="address" value={{key.Address}} name='address' required>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="mob">Mobile :</label>
+                <input type="tel" class="form-control" id="mob" pattern="[0-9]{10}" name='mobile' value={{key.Mobile}} required>
+            </div>
+        </div>
+    </div>
+    <center>
+        <input type="submit" value="save" class="btn btn-primary">&nbsp;&nbsp;
+        <input type="reset" class="btn btn-primary" value="clear">
+    </center>
+    </form>
+</div>
+{% endblock %} 

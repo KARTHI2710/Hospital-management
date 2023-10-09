@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}RefDr Master{% endblock %}
+{% block title %}Pathologist Master{% endblock %}
+{% load static%}
 {% block content %}
 <div class="row">
     <div class='col-md-3'>
-        <h3>RefDr Master</h3>
+        <h3>Pathologist Master</h3>
     </div>
 </div>
 <div class="container">
@@ -30,8 +31,8 @@
         </div>
         <div class="col-md-2">
             <br>
-            <a href="{% url 'addrefdr' %}"><button class='btn btn-primary'>Add
-                Refdr</button></a>
+            <a href=""><button class='btn btn-primary'>Add
+                Pathologist</button></a>
         </div>
         </form>
     </div>
@@ -51,6 +52,7 @@
                     <th>Specification</th>
                     <th>Address</th>
                     <th>Mobile</th>
+                    <th>Signature</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -63,10 +65,11 @@
                     <td>{{detail.Specialization}}</td>
                     <td>{{detail.Address}}</td>
                     <td>{{detail.Mobile}}</td>
+                    <td><img src="{% static detail.Signature %}" class="img-responsive"></td>
                     <td>
-                        <a href="{% url 'delete_refdr' docid=detail.Doctorcode %}"><span
+                        <a href=""><span
                                 class="glyphicon glyphicon-trash">&nbsp;</span></a>
-                        <a href="{% url 'edit_refdr' docid=detail.Doctorcode %}"><span
+                        <a href=""><span
                                 class="glyphicon glyphicon-edit">&nbsp;</span></a>
                     </td>
 

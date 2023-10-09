@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.db import connection
-from .models import Refdr_db,Test_db,Patient_db
+from .models import Refdr_db,Test_db,Patient_db,Pathologist_db
 import qrcode
 from django.contrib import messages
 from barcode import Code128
@@ -71,9 +71,7 @@ def delete_patient(request, pid):
     # Assuming 'Patient_db' is your model and 'pk' is the primary key field
     try:
         patient = Patient_db.objects.get(pk=pid)
-        print(patient)
-        print(type(patient))
-       # patient.delete()
+        patient.delete()
     except Patient_db.DoesNotExist:
         # Handle the case where the patient with the provided pid does not exist
         pass
@@ -149,4 +147,121 @@ def generate_barcode(request,pid):
     return redirect('/')
 
 def refdr_page(request):
-    return render(request,"refdr.html")
+    obj=Refdr_db.objects.all()
+    print(obj)
+    return render(request,"refdr.html",{'keys':obj})
+
+def addrefdr_page(request):
+    latest_did=generate_did()
+    next_did=generate_next_did(latest_did)
+
+    if request.method=="POST":
+        docid=next_did
+        docname=request.POST['docname']
+        specalization=request.POST['spec']
+        qual=request.POST['qualification']
+        address=request.POST['address']
+        mobile=request.POST['mobile']
+        
+        docobj=Refdr_db(docid,docname,specalization,address,qual,mobile) 
+        docobj.save() 
+        return redirect('/refdr')
+    return render(request,'addrefdr.html',{'key':next_did})
+
+
+def generate_did():
+    cursor=connection.cursor()
+    try:
+        cursor.execute("SELECT MAX(Doctorcode) FROM hospitalapp_refdr_db")
+        latest_test_number = cursor.fetchone()[0]
+        return latest_test_number
+    except Exception as e:
+        print("Error fetching latest doctor number:", str(e))
+        return None
+
+def generate_next_did(did):
+    if did==None:
+        return 'D00001'
+    else:
+        prefix='D'
+        numeric_part=did[1:]
+        next_id=int(numeric_part)+1
+        next_doctor_number = f"{prefix}{next_id:05}"  # Format as "D00001"
+        return next_doctor_number 
+    
+def delete_refdr(request,docid):
+    obj=Refdr_db.objects.get(pk=docid)
+    obj.delete()
+    return redirect('/refdr')
+
+def edit_refdr(request,docid):
+    obj=Refdr_db.objects.get(pk=docid)
+    if request.method=='POST':
+        obj.Doctorcode=request.POST['d_id']
+        obj.DoctorName=request.POST['docname']
+        obj.Specialization=request.POST['spec']
+        obj.Address=request.POST['address']
+        obj.Qualification=request.POST['qualification']
+        obj.Mobile=request.POST['mobile']
+        obj.save()
+        return redirect('/refdr')
+    return render(request,'editrefdr.html',{'key':obj})
+
+
+def testmaster_page(request):
+    obj=Test_db.objects.all()
+    return render(request,'testmaster.html',{'keys':obj})
+
+
+def addtest_page(request):
+    latest_test_id=generate_testid()
+    next_test_id=generate_next_testid(latest_test_id)
+    if request.method=='POST':
+        testid=next_test_id
+        testname=request.POST['tname']
+        specimen=request.POST['spec']
+        obj=Test_db(testid,testname,specimen)
+        obj.save()
+        return redirect('/testmaster')
+    return render(request,'addtest.html',{'key':next_test_id})
+
+
+def generate_testid():
+    cursor=connection.cursor()
+    try:
+        cursor.execute("SELECT MAX(Testcode) FROM hospitalapp_test_db")
+        latest_test_number = cursor.fetchone()[0]
+        return latest_test_number
+    except Exception as e:
+        print("Error fetching latest test number:", str(e))
+        return None
+
+def generate_next_testid(testid):
+    if testid==None:
+        return 'T00001'
+    else:
+        prefix='T'
+        numeric_part=testid[1:]
+        next_id=int(numeric_part)+1
+        next_test_number = f"{prefix}{next_id:05}"  # Format as "T00001"
+        return next_test_number 
+    
+def delete_test(request,tid):
+    obj=Test_db.objects.get(pk=tid)
+    obj.delete()
+    return redirect('/testmaster')
+
+def edit_test(request,tid):
+    obj=Test_db.objects.get(pk=tid)
+    if request.method=='POST':
+        obj.Testcode=request.POST['tid']
+        obj.TestName=request.POST['tname']
+        obj.speicmentype=request.POST['spec']
+        obj.save()
+        return redirect('/testmaster')
+    return render(request,'edittest.html',{'key':obj})
+
+
+def pathologistmaster(request):
+    obj=Pathologist_db.objects.all()
+    return render(request,'pathologistmaster.html',{'keys':obj})

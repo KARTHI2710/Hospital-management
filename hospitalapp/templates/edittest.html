@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Test Master{% endblock %}
+{% block content %}
+    <h1>Edit Test</h1>
+    <div class='container'>
+        <form method="post" action="">
+            {% csrf_token %}
+        <div class="row">
+            <div class='col-md-4'>
+                <div class="form-group">
+                    <label for="tid">TestCode :</label>
+                    <input type="text" class="form-control" id="tid" value={{key.Testcode}} name='tid' required readonly>
+                </div>
+            </div>
+            <div class='col-md-4'>
+                <div class="form-group">
+                    <label for="tname">TestName :</label>
+                    <input type="text" class="form-control" id="tname" value={{key.TestName}} name='tname' required>
+                </div>
+            </div>
+            <div class='col-md-4'>
+                <div class="form-group">
+                    <label for="tid">Specimen Type :</label>
+                    <input type="text" class="form-control" id="tid" value={{key.speicmentype}} name='spec' required>
+                </div>
+            </div>
+        </div>
+        
+        <center>
+            <input type="submit" value="save" class="btn btn-primary">&nbsp;&nbsp;
+            <input type="reset" class="btn btn-primary" value="clear">
+
+        </center>
+        </form>
+    </div>
+{% endblock %}
