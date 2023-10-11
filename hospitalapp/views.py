@@ -5,6 +5,9 @@ import qrcode
 from django.contrib import messages
 from barcode import Code128
 from barcode.writer import ImageWriter
+import os
+import shutil
+from django.conf import settings
 
 # Create your views here.
 def home(request):
@@ -265,3 +268,66 @@ def edit_test(request,tid):
 def pathologistmaster(request):
     obj=Pathologist_db.objects.all()
     return render(request,'pathologistmaster.html',{'keys':obj})
+
+
+def add_pathologist(request):
+    latest_path_id=generate_pathologistid()
+    next_path_id=generate_next_pathid(latest_path_id)
+    if request.method=='POST':
+        docid=next_path_id
+        docname=request.POST['docname'] 
+        specalization=request.POST['spec']
+        qual=request.POST['qualification']
+        address=request.POST['address']
+        mobile=request.POST['mobile']
+        signature=request.FILES['signature']
+
+        docobj=Pathologist_db(docid,docname,specalization,address,qual,mobile,signature) 
+        docobj.save() 
+        return redirect('/pathologistmaster')
+
+    return render(request,'addpathologist.html',{'key':next_path_id})
+
+
+def generate_pathologistid():
+    cursor=connection.cursor()
+    try:
+        cursor.execute("SELECT MAX(Doctorcode) FROM hospitalapp_pathologist_db")
+        latest_path_number = cursor.fetchone()[0]
+        return latest_path_number
+    except Exception as e:
+        print("Error fetching latest pathologist number:", str(e))
+        return None
+
+def generate_next_pathid(pathid):
+    if pathid==None:
+        return 'PD00001'
+    else:
+        prefix='PD'
+        numeric_part=pathid[2:]
+        next_id=int(numeric_part)+1
+        next_path_number = f"{prefix}{next_id:05}"  # Format as "PD00001"
+        return next_path_number 
+
+
+def delete_pathologist(request,pid):
+    obj=Pathologist_db.objects.get(pk=pid)
+    obj.delete()
+    return redirect('/pathologistmaster')
+
+def edit_pathologist(request,pid):
+    obj=Pathologist_db.objects.get(pk=pid)
+    if request.method=='POST':
+        obj.Doctorcode=request.POST['d_id']
+        obj.DoctorName=request.POST['docname']
+        obj.Specialization=request.POST['spec']
+        obj.Address=request.POST['address']
+        obj.Qualification=request.POST['qualification']
+        obj.Mobile=request.POST['mobile']
+        #obj.Signature=request.POST['signature']
+        obj.save()
+        return redirect('/pathologistmaster')
+    return render(request,'editpathologist.html',{'key':obj})
+
+def reportmaster_page(request):
+    return render(request,'reportmaster.html')

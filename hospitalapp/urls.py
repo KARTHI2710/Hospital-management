@@ -18,5 +18,9 @@ urlpatterns = [
     path('addtest',views.addtest_page,name='addtest'),
     path('deletetest/<tid>',views.delete_test,name='deletetest'),
     path('edittest/<tid>',views.edit_test,name='edittest'),
-    path('pathologistmaster',views.pathologistmaster,name='pathologist')
+    path('pathologistmaster',views.pathologistmaster,name='pathologist'),
+    path('addpathologist',views.add_pathologist,name='addpathologist'),
+    path('deletepathologis/<pid>',views.delete_pathologist,name='deletepathologist'),
+    path('editpathologist/<pid>',views.edit_pathologist,name='editpathologist'),
+    path('reportmaster',views.reportmaster_page,name='reportmaster')
 ]

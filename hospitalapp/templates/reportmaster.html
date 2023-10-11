@@ -1,10 +1,9 @@
 {% extends 'base.html' %}
-{% block title %}Pathologist Master{% endblock %}
-{% load static%}
+{% block title %}Report Master{% endblock %}
 {% block content %}
 <div class="row">
     <div class='col-md-3'>
-        <h3>Pathologist Master</h3>
+        <h3>Report Master</h3>
     </div>
 </div>
 <div class="container">
@@ -13,14 +12,14 @@
         <div class="col-md-3">
 
             <div class="form-group">
-                <label for="from">DoctorName : </label>
+                <label for="from">Code : </label>
                 <input type="text" class="form-control" id="from">
             </div>
 
         </div>
         <div class="col-md-3">
             <div class="form-group">
-                <label for="to">DoctorCode : </label>
+                <label for="to">Name : </label>
                 <input type="text" class="form-control" id="to">
             </div>
         </div>
@@ -31,8 +30,8 @@
         </div>
         <div class="col-md-2">
             <br>
-            <a href="{% url 'addpathologist' %}"><button class='btn btn-primary'>Add
-                Pathologist</button></a>
+            <a href="{% url 'addtest' %}"><button class='btn btn-primary'>Add
+                Report</button></a>
         </div>
         </form>
     </div>
@@ -46,29 +45,22 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>DoctorCode</th>
-                    <th>DoctorName</th>
-                    <th>Qualification</th>
-                    <th>Specification</th>
-                    <th>Address</th>
-                    <th>Mobile</th>
-                    <th>Signature</th>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Template</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 {% for detail in keys %}
                 <tr>
-                    <td>{{detail.Doctorcode}}</td>
-                    <td>{{detail.DoctorName}}</td>
-                    <td>{{detail.Qualification}}</td>
-                    <td>{{detail.Specialization}}</td>
-                    <td>{{detail.Address}}</td>
-                    <td>{{detail.Mobile}}</td>
-                    <td><img src="{% static detail.Signature %}" class="img-responsive"></td>
+                    <td>{{detail.Testcode}}</td>
+                    <td>{{detail.TestName}}</td>
+                    <td>{{detail.speicmentype}}</td>
                     <td>
-                        <a href="{% url 'deletepathologist' pid=detail.Doctorcode %}"><span class="glyphicon glyphicon-trash">&nbsp;</span></a>
-                        <a href="{% url 'editpathologist' pid=detail.Doctorcode  %}"><span
+                        <a href="{% url 'deletetest' tid=detail.Testcode %}"><span
+                                class="glyphicon glyphicon-trash">&nbsp;</span></a>
+                        <a href="{% url 'edittest' tid=detail.Testcode %}"><span
                                 class="glyphicon glyphicon-edit">&nbsp;</span></a>
                     </td>
 
