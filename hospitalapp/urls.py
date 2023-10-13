@@ -22,5 +22,10 @@ urlpatterns = [
     path('addpathologist',views.add_pathologist,name='addpathologist'),
     path('deletepathologis/<pid>',views.delete_pathologist,name='deletepathologist'),
     path('editpathologist/<pid>',views.edit_pathologist,name='editpathologist'),
-    path('reportmaster',views.reportmaster_page,name='reportmaster')
+    path('reportmaster',views.reportmaster_page,name='reportmaster'),
+    path('addreport',views.addreport_page,name='addreport'),
+    path('editreport/<code>',views.editreport_page,name='editreport'),
+    path('deletereport/<code>',views.deletereport_page,name='deletereport'),
+    path('report/<id>',views.reportgenerate,name='report'),
+    path('reportgenerate/<id>',views.populatetemplate,name='populatetemplate')
 ]

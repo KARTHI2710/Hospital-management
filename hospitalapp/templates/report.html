@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content%}
+<div class="row">
+    <div class='col-md-3'>
+        <h3>Report</h3>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <label for="from">Patient id : </label>
+                    <input type="text" class="form-control" id="from" value={{pid_key}} readonly>
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="to">Template Name : </label>
+                    <form action="reportgenerate/{{pid_key}}" method="post" id="report-form">
+                        {% csrf_token %}
+                        <select name="rname" id="dropdown" onchange="submitForm();">
+                            {% for i in report_names_keys %}
+                            <option value="{{i.ReportName}}">{{ i.ReportName }}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="to">Pathologist : </label>
+                    <select id='ref' class="select" name='refdr' style="
+                display: block;
+                width: 100%;
+                height: 34px;
+                padding: 6px 12px;
+                font-size: 14px;
+                line-height: 1.42857143;
+                color: #555;
+                background-color: #fff;
+                background-image: none;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            ">
+                        {% for pathologist in pathologist_names_keys %}
+                        <option value={{pathologist.DoctorName}}>{{ pathologist.DoctorName }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+    </div>
+    <div class='row'>
+        <div class='col-md-offset-2 col-md-8 col-md-offset-2' id="template">
+            {{template.Template}}
+        </div>
+    </div>
+    </form>
+</div>
+<script>
+    function submitForm() {
+        document.getElementById("report-form").submit();
+    }
+</script>
+{% endblock %}

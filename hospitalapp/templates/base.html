@@ -16,8 +16,8 @@
     <header>
         <!-- Common header content -->
     </header>
+    <div class='container-fluid'>
     <nav class="navbar">
-      <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
             <span class="icon-bar"></span>
@@ -35,7 +35,7 @@
               <ul class="dropdown-menu">
                 <li><a href="{% url 'refdr' %}">RefDr Master</a></li>
                 <li><a href="{% url 'testmaster' %}">Test Master</a></li>
-                <li><a href="#">Report Master</a></li>
+                <li><a href="{% url 'reportmaster' %}">Report Master</a></li>
                 <li><a href="{% url 'pathologist' %}">Pathologist Master</a></li>
               </ul>
             </li>
@@ -43,12 +43,14 @@
             <li><a href="#">Logout</a></li>
           </ul>
         </div>
-      </div>
     </nav>
+  </div>
     <main>
+      <div class='container-fluid'>
         {% block content %}
         <!-- Default content for child templates -->
         {% endblock %}
+      </div>
     </main>
     <footer>
         <!-- Common footer content -->

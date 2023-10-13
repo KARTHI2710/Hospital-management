@@ -1,13 +1,11 @@
 from django.shortcuts import render,redirect
 from django.db import connection
-from .models import Refdr_db,Test_db,Patient_db,Pathologist_db
+from .models import Refdr_db,Test_db,Patient_db,Pathologist_db,Report_db
 import qrcode
-from django.contrib import messages
 from barcode import Code128
 from barcode.writer import ImageWriter
-import os
-import shutil
 from django.conf import settings
+from .forms import ReportForm 
 
 # Create your views here.
 def home(request):
@@ -330,4 +328,48 @@ def edit_pathologist(request,pid):
     return render(request,'editpathologist.html',{'key':obj})
 
 def reportmaster_page(request):
-    return render(request,'reportmaster.html')
+    obj=Report_db.objects.all()
+    return render(request,'reportmaster.html',{'keys':obj})
+
+def addreport_page(request):
+    if request.method == 'POST':
+        form = ReportForm(request.POST)
+        if form.is_valid():
+            form.save()  # This will save the data to the database
+            return redirect('/reportmaster')  # Redirect to a success page
+    else:
+        form = ReportForm()
+    return render(request, 'addreport.html', {'form': form})
+
+def editreport_page(request,code):
+    obj = Report_db.objects.get(Reportcode=code)
+    if request.method == 'POST':
+        form = ReportForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()  # This will update the data in the database
+            return redirect('/reportmaster')  # Redirect to a success page
+    else:
+        form = ReportForm(instance=obj)
+
+    return render(request, 'editreport.html', {'form': form})
+
+
+def deletereport_page(request,code):
+    obj=Report_db.objects.get(Reportcode = code)
+    obj.delete()
+    return redirect('/reportmaster')
+
+def reportgenerate(request,id):
+    report_names=Report_db.objects.all()
+    pathologist_names=Pathologist_db.objects.all()
+    return render(request,"report.html",{'pid_key':id,'pathologist_names_keys':pathologist_names,'report_names_keys':report_names})
+
+def populatetemplate(request,id):
+    if request.method=='POST':
+        print("entered")
+        name=request.POST['rname']
+        obj=Report_db.objects.get(ReportName=name)
+        report_names=Report_db.objects.all()
+        pathologist_names=Pathologist_db.objects.all()
+        print(obj)
+        return render(request,"report.html",{'pid_key':id,'pathologist_names_keys':pathologist_names,'report_names_keys':report_names,'template':obj})

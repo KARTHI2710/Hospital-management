@@ -77,7 +77,7 @@
                         <a href="{% url 'editpatient' pid=detail.uhid %}"><span class="glyphicon glyphicon-edit">&nbsp;</span></a>
                         <a href="{% url 'qrcode' pid=detail.uhid %}"><span class="glyphicon glyphicon-qrcode">&nbsp;</span></a>
                         <a href="{% url 'barcode' pid=detail.uhid %}"><span class="glyphicon glyphicon-barcode">&nbsp;</span></a>
-                        <a href=''> <span class="glyphicon glyphicon-save-file">&nbsp;</span></a>
+                        <a href="{% url 'report' id=detail.uhid %}"> <span class="glyphicon glyphicon-save-file">&nbsp;</span></a>
                         <a href=''> <span class="glyphicon glyphicon-print">&nbsp;</span></a>
                     </td>
 

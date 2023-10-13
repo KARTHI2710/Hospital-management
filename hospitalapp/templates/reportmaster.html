@@ -30,7 +30,7 @@
         </div>
         <div class="col-md-2">
             <br>
-            <a href="{% url 'addtest' %}"><button class='btn btn-primary'>Add
+            <a href="{% url 'addreport' %}"><button class='btn btn-primary'>Add
                 Report</button></a>
         </div>
         </form>
@@ -54,13 +54,13 @@
             <tbody>
                 {% for detail in keys %}
                 <tr>
-                    <td>{{detail.Testcode}}</td>
-                    <td>{{detail.TestName}}</td>
-                    <td>{{detail.speicmentype}}</td>
+                    <td>{{detail.Reportcode}}</td>
+                    <td>{{detail.ReportName}}</td>
+                    <td>{{detail.Template|safe}}</td>
                     <td>
-                        <a href="{% url 'deletetest' tid=detail.Testcode %}"><span
+                        <a href="{% url 'deletereport' code=detail.Reportcode %}"><span
                                 class="glyphicon glyphicon-trash">&nbsp;</span></a>
-                        <a href="{% url 'edittest' tid=detail.Testcode %}"><span
+                        <a href="{% url 'editreport' code=detail.Reportcode %}"><span
                                 class="glyphicon glyphicon-edit">&nbsp;</span></a>
                     </td>
 

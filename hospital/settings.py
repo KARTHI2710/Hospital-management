@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "hospitalapp",
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -120,3 +121,7 @@ MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+CKEDITOR_UPLOAD_PATH = 'uploads/' 
+CKEDITOR_RESTRICT_BY_USER = True  # Limit image upload to the user's own directory
+CKEDITOR_ALLOW_NONIMAGE_FILES = False  # Allow only image files
