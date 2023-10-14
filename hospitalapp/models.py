@@ -57,6 +57,10 @@ class Pathologist_db(models.Model):
 
     def __str__(self):
         return self.Doctorcode
+
+
+class Patientreports_db(models.Model):
+    
     
 
     

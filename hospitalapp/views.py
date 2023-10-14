@@ -362,14 +362,14 @@ def deletereport_page(request,code):
 def reportgenerate(request,id):
     report_names=Report_db.objects.all()
     pathologist_names=Pathologist_db.objects.all()
-    return render(request,"report.html",{'pid_key':id,'pathologist_names_keys':pathologist_names,'report_names_keys':report_names})
-
-def populatetemplate(request,id):
+    temp=Report_db.objects.get(ReportName=report_names[0])
     if request.method=='POST':
-        print("entered")
         name=request.POST['rname']
+        pathologist=request.POST['refdr']
         obj=Report_db.objects.get(ReportName=name)
-        report_names=Report_db.objects.all()
-        pathologist_names=Pathologist_db.objects.all()
-        print(obj)
-        return render(request,"report.html",{'pid_key':id,'pathologist_names_keys':pathologist_names,'report_names_keys':report_names,'template':obj})
+        template=obj.Template
+
+        return render(request,'reportresult.html',{'pid_key':id,'pathologist_names_keys':pathologist_names,'report_names_keys':report_names,
+                                                   'temp':template,'selected_reportname':name,'selected_pathologist':pathologist})
+    return render(request,"report.html",{'pid_key':id,'pathologist_names_keys':pathologist_names,'report_names_keys':report_names,'temp':temp})
+

@@ -35,7 +35,7 @@
                     border-radius: 4px;
                 ">
                         {% for i in report_names_keys %}
-                        <option value="{{i.ReportName}}">{{ i.ReportName }}</option>
+                        <option value="{{i.ReportName}}" {% if i.ReportName == selected_reportname %}selected{% endif %}>{{ i.ReportName }}</option>
                         {% endfor %}
                     </select>
 
@@ -58,7 +58,7 @@
                 border-radius: 4px;
             ">
                         {% for pathologist in pathologist_names_keys %}
-                        <option value={{pathologist.DoctorName}}>{{ pathologist.DoctorName }}</option>
+                        <option value={{pathologist.DoctorName}} {% if pathologist.DoctorName == selected_pathologist %}selected{% endif %}>{{ pathologist.DoctorName }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -67,7 +67,7 @@
     </div>
     <div class='row'>
         <div class='col-md-offset-2 col-md-8 col-md-offset-2' id="template">
-            {{temp.Template}}
+            {{temp}}
         </div>
     </div>
     </form>

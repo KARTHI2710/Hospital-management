@@ -27,5 +27,5 @@ urlpatterns = [
     path('editreport/<code>',views.editreport_page,name='editreport'),
     path('deletereport/<code>',views.deletereport_page,name='deletereport'),
     path('report/<id>',views.reportgenerate,name='report'),
-    path('reportgenerate/<id>',views.populatetemplate,name='populatetemplate')
+    
 ]
