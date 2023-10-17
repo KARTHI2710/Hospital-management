@@ -13,7 +13,7 @@
 
                 <div class="form-group">
                     <label for="from">Patient id : </label>
-                    <input type="text" class="form-control" id="from" value={{pid_key}} readonly>
+                    <input type="text" class="form-control" id="from" value={{pid_key}} name='pat_id' readonly>
                 </div>
 
             </div>
@@ -67,10 +67,13 @@
     </div>
     <div class='row'>
         <div class='col-md-offset-2 col-md-8 col-md-offset-2' id="template">
-            {{temp}}
+            {{form.media}}
+            {{form.Template}}
         </div>
     </div>
+    <center><input type="submit" value="save" formaction="{% url 'savereport' %}"></center>
     </form>
+    
 </div>
 <script>
     function submitForm() {

@@ -1,11 +1,14 @@
 from django.shortcuts import render,redirect
 from django.db import connection
-from .models import Refdr_db,Test_db,Patient_db,Pathologist_db,Report_db
+from .models import Refdr_db,Test_db,Patient_db,Pathologist_db,Report_db,Patientreports_db
 import qrcode
 from barcode import Code128
 from barcode.writer import ImageWriter
 from django.conf import settings
-from .forms import ReportForm 
+from .forms import ReportForm,RichForm
+from weasyprint import HTML
+from html import HttpResponse
+
 
 # Create your views here.
 def home(request):
@@ -363,13 +366,41 @@ def reportgenerate(request,id):
     report_names=Report_db.objects.all()
     pathologist_names=Pathologist_db.objects.all()
     temp=Report_db.objects.get(ReportName=report_names[0])
+    form = ReportForm(instance=temp)
+
     if request.method=='POST':
         name=request.POST['rname']
         pathologist=request.POST['refdr']
         obj=Report_db.objects.get(ReportName=name)
-        template=obj.Template
+        form = ReportForm(instance=obj)
 
         return render(request,'reportresult.html',{'pid_key':id,'pathologist_names_keys':pathologist_names,'report_names_keys':report_names,
-                                                   'temp':template,'selected_reportname':name,'selected_pathologist':pathologist})
-    return render(request,"report.html",{'pid_key':id,'pathologist_names_keys':pathologist_names,'report_names_keys':report_names,'temp':temp})
+                                                   'form':form,'selected_reportname':name,'selected_pathologist':pathologist})
+    
+    
+    return render(request,"report.html",{'pid_key':id,'pathologist_names_keys':pathologist_names,'report_names_keys':report_names,'form':form})
 
+def savereport(request):
+    if request.method=='POST':
+        pid=request.POST['pat_id']
+        name=request.POST['rname']
+        pathologist=request.POST['refdr']
+        obj=Report_db.objects.get(ReportName=name)
+        template=obj.Template
+        obj=Patientreports_db(pid,pathologist,template)
+        obj.save()
+        print(pid,pathologist,template)
+    return redirect('/')
+
+
+
+def generate_pdf_report(request):
+    # Assuming you have an HTML template with the table
+    html_template = 'report_template.html'
+
+    # Convert the HTML template to PDF
+    pdf = HTML(string=html_template).write_pdf()
+
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; filename="report.pdf"'
+    return response

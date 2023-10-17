@@ -8,3 +8,9 @@ class ReportForm(forms.ModelForm):
     class Meta:
         model = Report_db
         fields = '__all__'
+
+
+class RichForm(forms.ModelForm):
+    class Meta:
+        model = Report_db
+        exclude = ['Reportcode', 'ReportName']

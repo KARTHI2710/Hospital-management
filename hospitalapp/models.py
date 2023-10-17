@@ -60,8 +60,12 @@ class Pathologist_db(models.Model):
 
 
 class Patientreports_db(models.Model):
+    Patientid=models.CharField(max_length=10,primary_key=True)
+    Pathologist=models.CharField(max_length=20)
+    Template=RichTextField()
     
-    
+    def __str__(self):
+        return self.Patientid
 
     
 
