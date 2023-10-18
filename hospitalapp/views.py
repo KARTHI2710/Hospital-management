@@ -6,8 +6,8 @@ from barcode import Code128
 from barcode.writer import ImageWriter
 from django.conf import settings
 from .forms import ReportForm,RichForm
-from weasyprint import HTML
-from html import HttpResponse
+from xhtml2pdf import pisa
+
 
 
 # Create your views here.
@@ -394,13 +394,28 @@ def savereport(request):
 
 
 
-def generate_pdf_report(request):
-    # Assuming you have an HTML template with the table
-    html_template = 'report_template.html'
+def generate_pdf_report(request,pid):
+    obj=Patientreports_db.objects.get(Patientid=pid)
+    # Read the HTML content from a file or a string
+    html_content = f"""
+    <html>
 
-    # Convert the HTML template to PDF
-    pdf = HTML(string=html_template).write_pdf()
+    <head></head>
 
-    response = HttpResponse(pdf, content_type='application/pdf')
-    response['Content-Disposition'] = 'inline; filename="report.pdf"'
-    return response
+    <body>
+    <h1>Patient Id : {obj.Patientid}</h1>
+    <h1>Pathologist : {obj.Pathologist}</h1>
+    <h1>Report : </h1>
+    <div>{obj.Template}</div>
+    </body>
+
+</html>
+    """
+
+    # Define the output file name
+    pdf_output = f"{obj.Patientid}output.pdf"
+
+    # Convert HTML to PDF
+    with open(pdf_output, "wb") as pdf_file:
+        pisa.CreatePDF(html_content, dest=pdf_file)
+    return redirect("/")
