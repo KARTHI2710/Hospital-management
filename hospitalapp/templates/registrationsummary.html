@@ -3,47 +3,50 @@
 {% block content %}
 <div class="row">
     <div class='col-md-3'>
-        <h3>Registraion summary</h3>
+        <h3 style="margin-top: 7px;">Registraion summary</h3>
     </div>
-    <div class='col-md-offset-8 col-md-1'><a href="{% url 'addpatient' %}"><button class='btn btn-primary'>Add
+    <div class='col-md-offset-7 col-md-1'><a href="{% url 'addpatient' %}"><button class='btn btn-primary addpatient-btn'>Add
                 Patient</button></a></div>
 </div>
 <div class="container">
     <div class="row">
-        <form action=""></form>
+        <form action="" method="post">
+            {% csrf_token %}
         <div class="col-md-3">
 
             <div class="form-group">
                 <label for="from">From Date:</label>
-                <input type="date" class="form-control" id="from">
+                <input type="date" class="form-control" id="from" name="fromdate">
             </div>
 
         </div>
         <div class="col-md-3">
             <div class="form-group">
                 <label for="to">To Date:</label>
-                <input type="dat" class="form-control" id="to">
+                <input type="date" class="form-control" id="to" name="todate">
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
                 <label for="name">Patient Name:</label>
-                <input type="text" class="form-control" id="name">
+                <input type="text" class="form-control" id="name" name="patname">
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
                 <label for="mobile">Mobile:</label>
-                <input type="tel" class="form-control" id="mobile">
+                <input type="tel" class="form-control" id="mobile" name='mobile'>
             </div>
         </div>
-        </form>
+        
     </div>
-    <div class="col-md-3"><button class="btn btn-primary btn-lg" width="160">Search</button></div>
+    <div class="col-md-5"><input type="submit" class="btn btn-primary btn-lg  search-btn" value="Search"></div>
+    </form>
 </div>
 <div class="row">
-    <div class="table-responsive">
-        <table class="table">
+    <center>
+    <div class='table-responsive'>
+        <table class="table " >
             <thead>
                 <tr>
                     <th>UHID</th>
@@ -62,17 +65,17 @@
             <tbody>
                 {% for detail in key %}
                 <tr>
-                    <td>{{detail.uhid}}</td>
-                    <td>{{detail.dob}}</td>
-                    <td>{{detail.title}}</td>
-                    <td>{{detail.patientname}}</td>
-                    <td>{{detail.gender}}</td>
-                    <td>{{detail.dob}}</td>
-                    <td>{{detail.age}}</td>
-                    <td>{{detail.mobile}}</td>
-                    <td>{{detail.email}}</td>
-                    <td>{{detail.refdr}}</td>
-                    <td><a href=''><span class="glyphicon glyphicon-plus">&nbsp;</span></a>
+                    <td style="padding:20px 10px">{{detail.uhid}}</td>
+                    <td style="padding:20px 10px">{{detail.dob}}</td>
+                    <td style="padding:20px 10px">{{detail.title}}</td>
+                    <td style="padding:20px 10px">{{detail.patientname}}</td>
+                    <td style="padding:20px 10px">{{detail.gender}}</td>
+                    <td style="padding:20px 10px">{{detail.dob}}</td>
+                    <td style="padding:20px 10px">{{detail.age}}</td>
+                    <td style="padding:20px 10px">{{detail.mobile}}</td>
+                    <td style="padding:20px 10px">{{detail.email}}</td>
+                    <td style="padding:20px 10px">{{detail.refdr}}</td>
+                    <td style="padding:20px 10px"><a href=''><span class="glyphicon glyphicon-plus">&nbsp;</span></a>
                         <a href="{% url 'deletepatient' pid=detail.uhid %}"><span class="glyphicon glyphicon-trash">&nbsp;</span></a>
                         <a href="{% url 'editpatient' pid=detail.uhid %}"><span class="glyphicon glyphicon-edit">&nbsp;</span></a>
                         <a href="{% url 'qrcode' pid=detail.uhid %}"><span class="glyphicon glyphicon-qrcode">&nbsp;</span></a>
@@ -86,6 +89,7 @@
             </tbody>
         </table>
     </div>
+    </center>
 </div>
 
 

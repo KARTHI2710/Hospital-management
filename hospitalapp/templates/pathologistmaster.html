@@ -9,29 +9,30 @@
 </div>
 <div class="container">
     <div class="row">
-        <form action=""></form>
+        <form action="" method="post">
+            {% csrf_token %}
         <div class="col-md-3">
 
             <div class="form-group">
                 <label for="from">DoctorName : </label>
-                <input type="text" class="form-control" id="from">
+                <input type="text" class="form-control" id="from" name="name">
             </div>
 
         </div>
         <div class="col-md-3">
             <div class="form-group">
                 <label for="to">DoctorCode : </label>
-                <input type="text" class="form-control" id="to">
+                <input type="text" class="form-control" id="to" name="code">
             </div>
         </div>
         <div class="col-md-2">
             <br>
-            <a href=""><button class='btn btn-primary'>Search
-            </button></a>
+            <input type="submit" class='btn btn-primary addpatient-btn' value="Search">
+        
         </div>
         <div class="col-md-2">
             <br>
-            <a href="{% url 'addpathologist' %}"><button class='btn btn-primary'>Add
+            <a href="{% url 'addpathologist' %}"><button class='btn btn-primary addpatient-btn'>Add
                 Pathologist</button></a>
         </div>
         </form>

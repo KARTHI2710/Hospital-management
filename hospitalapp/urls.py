@@ -28,6 +28,8 @@ urlpatterns = [
     path('deletereport/<code>',views.deletereport_page,name='deletereport'),
     path('report/<id>',views.reportgenerate,name='report'),
     path('savereport',views.savereport,name='savereport'),
-    path('printreport/<pid>',views.generate_pdf_report,name='printreport')
+    path('printreport/<pid>',views.generate_pdf_report,name='printreport'),
+    path('register',views.register,name='register')
+
     
 ]

@@ -5,13 +5,39 @@ import qrcode
 from barcode import Code128
 from barcode.writer import ImageWriter
 from django.conf import settings
-from .forms import ReportForm,RichForm
+from .forms import ReportForm,RichForm,CustomUserCreationForm
 from xhtml2pdf import pisa
+import datetime
+from django.db.models import Q
 
 
 
 # Create your views here.
 def home(request):
+        if request.method=='POST':
+            fromdate=request.POST['fromdate']
+            todate=request.POST['todate']
+            name=request.POST['patname']
+            mobile=request.POST['mobile']
+            obj=None
+            if fromdate and todate and name and mobile:
+                obj=Patient_db.objects.filter(patientname=name,date=fromdate,mobile=mobile)
+
+            elif fromdate and todate:
+                obj=Patient_db.objects.raw('select * from hospitalapp_patient_db where date between "'+ fromdate +'" and "'+ todate +'";')
+
+            elif name and mobile:
+                obj=Patient_db.objects.filter(patientname=name,mobile=mobile)    
+                
+            elif name:
+                obj=Patient_db.objects.filter(patientname=name)
+                
+            elif mobile:
+                obj=Patient_db.objects.filter(mobile=mobile)
+ 
+            return render(request,'registrationsummary.html',{'key':obj})
+
+        #else:
         patient_values=Patient_db.objects.all()
         return render(request,'registrationsummary.html',{'key':patient_values})
 
@@ -23,7 +49,7 @@ def add_patient(request):
     
     refdr_name_values=Refdr_db.objects.all()
     test_name_values=Test_db.objects.all()
-    
+
   
     
     if request.method=='POST':
@@ -37,8 +63,9 @@ def add_patient(request):
         mobile=request.POST['mobile']
         refdr=request.POST['refdr']
         selectedtest=request.POST['test']
+        date=datetime.date.today()
 
-        obj=Patient_db(pid,title,pname,gender,dob,age,email,mobile,refdr,selectedtest)
+        obj=Patient_db(pid,title,pname,gender,dob,age,email,mobile,refdr,selectedtest,date)
         obj.save()
 
         # patient_values=Patient_db.objects.all()
@@ -151,8 +178,17 @@ def generate_barcode(request,pid):
     return redirect('/')
 
 def refdr_page(request):
+    
+    if request.method=='POST':
+        obj=None
+        code=request.POST['code']
+        name=request.POST['name']
+        if code:
+            obj=Refdr_db.objects.filter(Doctorcode=code)
+        if name:
+            obj=Refdr_db.objects.filter(DoctorName=name)
+        return render(request,'refdr.html',{'keys':obj})   
     obj=Refdr_db.objects.all()
-    print(obj)
     return render(request,"refdr.html",{'keys':obj})
 
 def addrefdr_page(request):
@@ -213,6 +249,21 @@ def edit_refdr(request,docid):
 
 
 def testmaster_page(request):
+    if request.method=='POST':
+        obj=None
+        common=request.POST['code']
+        spec=request.POST['specimen']
+        if common and spec:
+            print('entered')
+            obj=Test_db.objects.filter((Q(Testcode=common) | Q(TestName=common)),speicmentype=spec)
+            print(obj)
+        elif common:
+            obj=Test_db.objects.raw("select * from hospitalapp_test_db where Testcode == '"+common+"' or TestName == '"+common+"';")
+        elif spec:
+            obj=Test_db.objects.filter(speicmentype=spec)
+
+        return render(request,'testmaster.html',{'keys':obj})
+
     obj=Test_db.objects.all()
     return render(request,'testmaster.html',{'keys':obj})
 
@@ -267,6 +318,15 @@ def edit_test(request,tid):
 
 
 def pathologistmaster(request):
+    if request.method=='POST':
+        obj=None
+        code=request.POST['code']
+        name=request.POST['name']
+        if code:
+            obj=Pathologist_db.objects.filter(Doctorcode=code)
+        if name:
+            obj=Pathologist_db.objects.filter(DoctorName=name)
+        return render(request,'refdr.html',{'keys':obj})  
     obj=Pathologist_db.objects.all()
     return render(request,'pathologistmaster.html',{'keys':obj})
 
@@ -331,6 +391,15 @@ def edit_pathologist(request,pid):
     return render(request,'editpathologist.html',{'key':obj})
 
 def reportmaster_page(request):
+    if request.method=='POST':
+        obj=None
+        code=request.POST['code']
+        name=request.POST['name']
+        if code:
+            obj=Report_db.objects.filter(Reportcode=code)
+        if name:
+            obj=Report_db.objects.filter(ReportName=name)
+        return render(request,'reportmaster.html',{'keys':obj})
     obj=Report_db.objects.all()
     return render(request,'reportmaster.html',{'keys':obj})
 
@@ -419,3 +488,19 @@ def generate_pdf_report(request,pid):
     with open(pdf_output, "wb") as pdf_file:
         pisa.CreatePDF(html_content, dest=pdf_file)
     return redirect("/")
+
+
+def register(request):
+    form=CustomUserCreationForm()
+    if request.method=='POST':
+        form=CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+
+    
+    return render(request,'register.html',{'form':form})
+
+
+
+            
